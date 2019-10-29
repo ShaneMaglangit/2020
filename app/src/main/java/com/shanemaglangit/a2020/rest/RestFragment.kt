@@ -28,7 +28,7 @@ class RestFragment : Fragment() {
 
         restViewModel.startTimer()
 
-        restViewModel.timeLeft.observe(this, Observer {
+        restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
             if(it == 0) this.activity!!.finish()
         })
 
