@@ -42,13 +42,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_time_left"
+            android:id="@+id/text_timeleft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@{restViewModel.timeLeft.toString()}"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/text_time_left_caption"
+            app:layout_constraintEnd_toStartOf="@+id/text_timeleft_caption"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/progress_time_elapsed"
@@ -66,17 +66,17 @@
             app:layout_constraintTop_toBottomOf="@+id/progress_time_elapsed" />
 
         <TextView
-            android:id="@+id/text_time_left_caption"
+            android:id="@+id/text_timeleft_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/text_time_left_caption"
+            android:text="@string/text_timeleft_caption"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_time_left"
+            app:layout_constraintBottom_toBottomOf="@+id/text_timeleft"
             app:layout_constraintEnd_toEndOf="@+id/progress_time_elapsed"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/text_time_left"
-            app:layout_constraintTop_toTopOf="@+id/text_time_left" />
+            app:layout_constraintStart_toEndOf="@+id/text_timeleft"
+            app:layout_constraintTop_toTopOf="@+id/text_timeleft" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
