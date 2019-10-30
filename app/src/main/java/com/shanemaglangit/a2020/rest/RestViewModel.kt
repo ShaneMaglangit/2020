@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.shanemaglangit.a2020.setAlarmManager
 
 class RestViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,6 +34,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onFinish() {
+                setAlarmManager(getApplication())
             }
         }
 

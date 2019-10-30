@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.shanemaglangit.a2020.setAlarmManager
 
 class LiteViewModel(application: Application) : AndroidViewModel(application) {
     private val sharedPreferences
@@ -17,5 +18,7 @@ class LiteViewModel(application: Application) : AndroidViewModel(application) {
         editor.putInt("break_duration", duration.value!!)
         editor.putInt("work_duration", work.value!!)
         editor.apply()
+
+        setAlarmManager(getApplication())
     }
 }
