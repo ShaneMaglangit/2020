@@ -11,7 +11,6 @@ fun setAlarmManager(context: Context) {
     val alarmManager = context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
     val alarmIntent = Intent(context, AlarmReceiver::class.java)
-    alarmIntent.putExtra("startCountdown", true)
 
     val alarmPendingIntent =
         PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -19,7 +18,7 @@ fun setAlarmManager(context: Context) {
     val workDuration =
         context.getSharedPreferences("user_pref", Context.MODE_PRIVATE).getInt("work_duration", 20)
 
-    val triggerInterval = System.currentTimeMillis() + workDuration * 6000
+    val triggerInterval = System.currentTimeMillis() + workDuration * 60000
 
     if (Build.VERSION.SDK_INT >= 23) alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, triggerInterval, alarmPendingIntent)
     else alarmManager.setExact(AlarmManager.RTC, triggerInterval, alarmPendingIntent)

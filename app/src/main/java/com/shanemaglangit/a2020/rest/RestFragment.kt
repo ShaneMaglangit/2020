@@ -1,6 +1,7 @@
 package com.shanemaglangit.a2020.rest
 
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.FragmentRestBinding
+import com.shanemaglangit.a2020.setAlarmManager
 
 class RestFragment : Fragment() {
     private lateinit var binding: FragmentRestBinding
@@ -29,9 +31,17 @@ class RestFragment : Fragment() {
         restViewModel.startTimer()
 
         restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
-            if(it == 0) this.activity!!.finish()
+            if(it == 0) {
+                if(Build.VERSION.SDK_INT >= 21) activity!!.finishAndRemoveTask()
+                else activity!!.finishAffinity()
+            }
         })
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        setAlarmManager(this.context!!)
     }
 }
