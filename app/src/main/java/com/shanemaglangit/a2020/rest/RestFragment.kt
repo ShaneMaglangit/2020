@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.FragmentRestBinding
-import com.shanemaglangit.a2020.setAlarmManager
 
 class RestFragment : Fragment() {
     private lateinit var binding: FragmentRestBinding
@@ -38,10 +37,5 @@ class RestFragment : Fragment() {
         })
 
         return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        setAlarmManager(this.context!!)
     }
 }

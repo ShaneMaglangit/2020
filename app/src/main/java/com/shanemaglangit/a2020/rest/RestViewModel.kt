@@ -13,7 +13,6 @@ import androidx.lifecycle.MutableLiveData
 import com.shanemaglangit.a2020.R
 
 class RestViewModel(application: Application) : AndroidViewModel(application) {
-
     private val sharedPreferences =
         application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
 
@@ -40,9 +39,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
                 _progress.value = millisElapsed
             }
 
-            override fun onFinish() {
-                playRingtoneAndVibrate()
-            }
+            override fun onFinish() { playRingtoneAndVibrate() }
         }
 
         timer.start()
