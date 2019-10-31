@@ -9,4 +9,5 @@
     <string name="text_message">Relax your mind, think about the things that makes you happy</string>
     <string name="text_timeleft_caption">second(s) left</string>
     <string name="button_skip_text">Skip break</string>
+    <string name="switch_enabled_text">Enabled</string>
 </resources>

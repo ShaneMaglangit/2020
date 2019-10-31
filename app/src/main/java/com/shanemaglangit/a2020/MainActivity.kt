@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         if(intent.getBooleanExtra("startCountdown", false)) {
-            this.findNavController(R.id.nav_host_fragment).navigate(R.id.action_setupFragment_to_restFragment)
+            this.findNavController(R.id.nav_host_fragment).navigate(R.id.restFragment)
         }
     }
 }
