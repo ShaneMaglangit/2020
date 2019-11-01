@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/liteFragment">
+    app:startDestination="@id/settingFragment">
 
     <fragment
-        android:id="@+id/liteFragment"
-        android:name="com.shanemaglangit.a2020.lite.LiteFragment"
+        android:id="@+id/settingFragment"
+        android:name="com.shanemaglangit.a2020.setting.SettingFragment"
         android:label="fragment_lite"
-        tools:layout="@layout/fragment_lite" />
+        tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/restFragment"
         android:name="com.shanemaglangit.a2020.rest.RestFragment"

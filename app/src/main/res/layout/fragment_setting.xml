@@ -5,15 +5,14 @@
 
     <data>
         <variable
-            name="liteViewModel"
-            type="com.shanemaglangit.a2020.lite.LiteViewModel" />
+            name="settingViewModel"
+            type="com.shanemaglangit.a2020.setting.SettingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".lite.LiteFragment">
-
+        tools:context=".setting.SettingFragment">
 
         <EditText
             android:id="@+id/edit_work"
@@ -22,7 +21,7 @@
             android:ems="10"
             android:importantForAutofill="no"
             android:inputType="numberSigned"
-            android:text="@={liteViewModel.work}"
+            android:text="@={settingViewModel.work}"
             android:textAlignment="center"
             android:textSize="36sp"
             app:layout_constraintBottom_toTopOf="@+id/edit_duration"
@@ -64,7 +63,7 @@
             android:ems="10"
             android:importantForAutofill="no"
             android:inputType="numberSigned"
-            android:text="@={liteViewModel.duration}"
+            android:text="@={settingViewModel.duration}"
             android:textAlignment="center"
             android:textSize="36sp"
             app:layout_constraintBottom_toTopOf="@+id/button_save"
@@ -105,7 +104,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_save"
             android:textSize="24sp"
-            android:onClick="@{() -> liteViewModel.savePreferences()}"
+            android:onClick="@{() -> settingViewModel.savePreferences()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,8 +116,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:checked="@={liteViewModel.isEnabled}"
-            android:onClick="@{() -> liteViewModel.toggleEnabled()}"
+            android:checked="@={settingViewModel.isEnabled}"
+            android:onClick="@{() -> settingViewModel.toggleEnabled()}"
             android:switchPadding="8dp"
             android:text="@string/switch_enabled_text"
             android:textSize="18sp"
