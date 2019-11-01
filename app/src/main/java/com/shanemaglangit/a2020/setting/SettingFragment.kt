@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.FragmentSettingBinding
+import com.shanemaglangit.a2020.setAlarmManager
 
 class SettingFragment : Fragment() {
     private lateinit var binding: FragmentSettingBinding
@@ -21,6 +22,8 @@ class SettingFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
         settingViewModel = ViewModelProvider(this, SettingViewModelFactory(activity!!.application)).get(SettingViewModel::class.java)
+
+        setAlarmManager(this.context!!)
 
         binding.settingViewModel = settingViewModel
         binding.lifecycleOwner = this

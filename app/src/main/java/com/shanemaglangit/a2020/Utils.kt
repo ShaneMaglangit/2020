@@ -7,9 +7,9 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 
-fun setAlarmManager(context: Context) {
+fun setAlarmManager(context: Context, isCanceled: Boolean? = null) {
     val sharedPreferences = context.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
-    val isEnabled = sharedPreferences.getBoolean("break_enabled", false)
+    val isEnabled = isCanceled ?: sharedPreferences.getBoolean("break_enabled", false)
 
     val alarmManager = context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
     val alarmIntent = Intent(context, AlarmReceiver::class.java)

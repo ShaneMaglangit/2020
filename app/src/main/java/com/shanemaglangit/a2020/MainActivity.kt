@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         if(intent.getBooleanExtra("startCountdown", false)) {
             this.findNavController(R.id.nav_host_fragment).navigate(R.id.restFragment)
         }
