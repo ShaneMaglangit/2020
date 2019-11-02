@@ -27,7 +27,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     val timeLeft: LiveData<Int>
         get() = _timeLeft
 
-    private var _max = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20) * 1000)
+    private var _max = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20000))
     val max: LiveData<Int>
         get() = _max
 

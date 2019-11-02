@@ -18,8 +18,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
 
     private val alarmReceiver = AlarmReceiver()
 
-    val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20))
-    val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 20))
+    val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20000) / 1000)
+    val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 1200000) / 60000)
     val isEnabled = MutableLiveData<Boolean>(sharedPreferences.getBoolean("break_enabled", false))
 
     fun savePreferences() {
@@ -29,8 +29,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
                 .show()
         }
         else {
-            editor.putInt("break_duration", duration.value!!)
-            editor.putInt("work_duration", work.value!!)
+            editor.putInt("break_duration", duration.value!! * 1000)
+            editor.putInt("work_duration", work.value!! * 60000)
             editor.apply()
 
             setAlarmManager(getApplication())

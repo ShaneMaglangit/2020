@@ -7,9 +7,12 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 
-fun setAlarmManager(context: Context, isCanceled: Boolean? = null) {
+fun setAlarmManager(context: Context, isActive: Boolean? = null, resumedInterval: Int? = null) {
     val sharedPreferences = context.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
-    val isEnabled = isCanceled ?: sharedPreferences.getBoolean("break_enabled", false)
+    val editor = sharedPreferences.edit()
+    val isEnabled = isActive ?: sharedPreferences.getBoolean("break_enabled", false)
+    val breakDuration = sharedPreferences.getInt("break_duration", 20000)
+    val workDuration = sharedPreferences.getInt("work_duration", 1200000)
 
     val alarmManager = context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
     val alarmIntent = Intent(context, AlarmReceiver::class.java)
@@ -17,19 +20,26 @@ fun setAlarmManager(context: Context, isCanceled: Boolean? = null) {
         PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     if (isEnabled) {
-        val breakDuration = sharedPreferences.getInt("break_duration", 20) * 1000
-        val workDuration = sharedPreferences.getInt("work_duration", 20) * 60000
-        val triggerInterval = System.currentTimeMillis() + breakDuration + workDuration
+        val triggerInterval = resumedInterval ?: breakDuration + workDuration
+
+        editor.putLong("startOfAlarm", System.currentTimeMillis())
+        editor.apply()
 
         if (Build.VERSION.SDK_INT >= 23)
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC,
-                triggerInterval,
+                System.currentTimeMillis() + triggerInterval,
                 alarmPendingIntent
             )
-        else alarmManager.setExact(AlarmManager.RTC, triggerInterval, alarmPendingIntent)
+        else alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + triggerInterval, alarmPendingIntent)
     }
     else {
+        val startOfAlarm = sharedPreferences.getLong("startOfAlarm", 0)
+        val workTimeLeft = breakDuration - (startOfAlarm - System.currentTimeMillis())
+
+        editor.putInt("workTimeLeft", workTimeLeft.toInt())
+        editor.apply()
+
         alarmManager.cancel(alarmPendingIntent)
     }
 }

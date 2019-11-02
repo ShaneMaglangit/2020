@@ -16,12 +16,12 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when(intent.action) {
             Intent.ACTION_SCREEN_ON -> {
+                resumeAlarm(context)
                 showResumeNotification(context)
-                setAlarmManager(context)
                 Log.i("AlarmReceiver", "Break is resumed")
             }
             Intent.ACTION_SCREEN_OFF -> {
-                setAlarmManager(context, isCanceled = true)
+                setAlarmManager(context, isActive = false)
                 Log.i("AlarmReceiver", "Break is paused")
             }
             else -> {
@@ -33,6 +33,12 @@ class AlarmReceiver : BroadcastReceiver() {
                 setAlarmManager(context)
             }
         }
+    }
+
+    private fun resumeAlarm(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
+        val workTimeLeft = sharedPreferences.getInt("workTimeLeft", 1200000)
+        setAlarmManager(context, isActive = true, resumedInterval = workTimeLeft)
     }
 
     private fun showResumeNotification(context: Context) {
