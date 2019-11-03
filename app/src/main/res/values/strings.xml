@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">2020</string>
-    <string name="text_duration">second(s)</string>
-    <string name="text_duration_sub">of breaks</string>
-    <string name="text_work">minute(s)</string>
-    <string name="text_work_sub">of work</string>
-    <string name="button_save">Save</string>
+    <string name="text_duration">SECONDS</string>
+    <string name="text_duration_sub">duration of breaks</string>
+    <string name="text_work">MINUTES</string>
+    <string name="text_work_sub">interval between breaks</string>
+    <string name="button_start">Start breaks</string>
+    <string name="button_stop">Stop breaks</string>
 
     <string name="text_message">Relax your mind, think about the things that makes you happy</string>
     <string name="text_timeleft_caption">second(s) left</string>

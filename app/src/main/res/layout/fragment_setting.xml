@@ -12,118 +12,187 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#E4F1DE"
         tools:context=".setting.SettingFragment">
 
-        <EditText
-            android:id="@+id/edit_work"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="numberSigned"
-            android:text="@={settingViewModel.work}"
-            android:textAlignment="center"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@+id/edit_duration"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/text_work"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_work"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/image_wall"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:labelFor="@id/edit_duration"
-            android:text="@string/text_work"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/text_work_sub"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/edit_work" />
-
-        <TextView
-            android:id="@+id/text_work_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/edit_work"
-            android:text="@string/text_work_sub"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/edit_work"
-            app:layout_constraintStart_toStartOf="@+id/text_work" />
-
-        <EditText
-            android:id="@+id/edit_duration"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:ems="10"
-            android:importantForAutofill="no"
-            android:inputType="numberSigned"
-            android:text="@={settingViewModel.duration}"
-            android:textAlignment="center"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@+id/button_save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/text_duration"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_work" />
-
-        <TextView
-            android:id="@+id/text_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:labelFor="@id/edit_duration"
-            android:text="@string/text_duration"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/text_duration_sub"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/edit_duration" />
-
-        <TextView
-            android:id="@+id/text_duration_sub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/edit_duration"
-            android:text="@string/text_duration_sub"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/edit_duration"
-            app:layout_constraintStart_toStartOf="@+id/text_duration" />
-
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_save"
-            android:textSize="24sp"
-            android:onClick="@{() -> settingViewModel.savePreferences()}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.80" />
+            app:srcCompat="@drawable/ic_2020_wall" />
 
-        <Switch
-            android:id="@+id/switch_enabled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:checked="@={settingViewModel.isEnabled}"
-            android:onClick="@{() -> settingViewModel.toggleEnabled()}"
-            android:switchPadding="8dp"
-            android:text="@string/switch_enabled_text"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/button_save"
-            app:layout_constraintEnd_toEndOf="@+id/button_save"
-            app:layout_constraintStart_toStartOf="@+id/button_save" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/rounded_rect"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_wall"
+            app:layout_constraintVertical_bias="0.0">
 
+            <TextView
+                android:id="@+id/text_duration_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:labelFor="@id/text_duration_num"
+                android:text="@string/text_duration_sub"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/text_duration"
+                app:layout_constraintTop_toBottomOf="@+id/text_duration" />
+
+            <TextView
+                android:id="@+id/text_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/rubik_medium"
+                android:labelFor="@id/text_duration_num"
+                android:text="@string/text_duration"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_duration_num"
+                app:layout_constraintStart_toEndOf="@+id/text_duration_num"
+                app:layout_constraintTop_toTopOf="@+id/text_duration_num"
+                app:layout_constraintVertical_bias="0.15" />
+
+            <TextView
+                android:id="@+id/text_duration_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="20"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="44sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_work_num"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.26"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <SeekBar
+                android:id="@+id/seekbar_duration"
+                style="@android:style/Widget.Material.SeekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:max="6"
+                android:progress="2"
+                android:thumb="@drawable/circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_duration_num" />
+
+            <TextView
+                android:id="@+id/text_work_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="20"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="44sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/switch_enabled"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_duration_num" />
+
+            <TextView
+                android:id="@+id/text_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/rubik_medium"
+                android:labelFor="@id/text_duration_num"
+                android:text="@string/text_work"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_work_num"
+                app:layout_constraintStart_toEndOf="@+id/text_work_num"
+                app:layout_constraintTop_toTopOf="@+id/text_work_num"
+                app:layout_constraintVertical_bias="0.15" />
+
+            <TextView
+                android:id="@+id/text_work_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:labelFor="@id/text_work_num"
+                android:text="@string/text_work_sub"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/text_work_num"
+                app:layout_constraintStart_toStartOf="@+id/text_work"
+                app:layout_constraintTop_toBottomOf="@+id/text_work" />
+
+            <SeekBar
+                android:id="@+id/seekbar_work"
+                style="@android:style/Widget.Material.SeekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:max="12"
+                android:progress="4"
+                android:thumb="@drawable/circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_work_num" />
+
+            <Button
+                android:id="@+id/button_start"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/montserrat"
+                android:onClick="@{() -> settingViewModel.savePreferences()}"
+                android:text="@string/button_start"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Switch
+                android:id="@+id/switch_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:checked="@={settingViewModel.isEnabled}"
+                android:onClick="@{() -> settingViewModel.toggleEnabled()}"
+                android:switchPadding="8dp"
+                android:text="@string/switch_enabled_text"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/button_start"
+                app:layout_constraintEnd_toEndOf="@+id/button_start"
+                app:layout_constraintStart_toStartOf="@+id/button_start" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
