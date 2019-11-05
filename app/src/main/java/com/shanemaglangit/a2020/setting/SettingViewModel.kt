@@ -22,22 +22,30 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 1200000) / 60000)
     val isEnabled = MutableLiveData<Boolean>(sharedPreferences.getBoolean("break_enabled", false))
 
-    fun savePreferences() {
+    fun startBreaks() {
         if((work.value == 0) or (duration.value == 0)) {
             Toast
                 .makeText(getApplication(), "Fields can not be set to 0!", Toast.LENGTH_SHORT)
                 .show()
         }
         else {
-            editor.putInt("break_duration", duration.value!! * 1000)
-            editor.putInt("work_duration", work.value!! * 60000)
+            editor.putInt("break_duration", duration.value!!)
+            editor.putInt("work_duration", work.value!!)
             editor.apply()
 
             setAlarmManager(getApplication())
 
             Toast
-                .makeText(getApplication(), "Changes saved successfully!", Toast.LENGTH_SHORT)
+                .makeText(getApplication(), "Breaks are now started!", Toast.LENGTH_SHORT)
                 .show()
+
+            isEnabled.value = true
+        }
+    }
+
+    fun stopBreaks() {
+        if(isEnabled.value!!) {
+            isEnabled.value = false
         }
     }
 

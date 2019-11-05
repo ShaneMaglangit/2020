@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/wallpaper_description"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +41,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_wall"
             app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/text_duration_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@{settingViewModel.duration}"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="44sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_work_num"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.26"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_duration_sub"
@@ -69,24 +88,6 @@
                 app:layout_constraintTop_toTopOf="@+id/text_duration_num"
                 app:layout_constraintVertical_bias="0.15" />
 
-            <TextView
-                android:id="@+id/text_duration_num"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="20"
-                android:textAlignment="center"
-                android:textColor="@color/design_default_color_on_secondary"
-                android:textSize="44sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/text_work_num"
-                app:layout_constraintDimensionRatio="w,1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.26"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <SeekBar
                 android:id="@+id/seekbar_duration"
                 style="@android:style/Widget.Material.SeekBar"
@@ -95,8 +96,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:max="6"
-                android:progress="2"
+                android:max="12"
+                android:progress="@={settingViewModel.duration}"
                 android:thumb="@drawable/circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="20"
+                android:text="@{settingViewModel.work}"
                 android:textAlignment="center"
                 android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="44sp"
@@ -157,7 +158,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:max="12"
-                android:progress="4"
+                android:progress="@={settingViewModel.work}"
                 android:thumb="@drawable/circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -171,9 +172,10 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/montserrat"
-                android:onClick="@{() -> settingViewModel.savePreferences()}"
-                android:text="@string/button_start"
+                android:onClick="@{() -> settingViewModel.startBreaks()}"
+                android:text="@{settingViewModel.isEnabled}"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.FragmentSettingBinding
@@ -24,6 +25,13 @@ class SettingFragment : Fragment() {
         settingViewModel = ViewModelProvider(this, SettingViewModelFactory(activity!!.application)).get(SettingViewModel::class.java)
 
         setAlarmManager(this.context!!)
+
+        settingViewModel.duration.observe(viewLifecycleOwner, Observer {
+            if(settingViewModel.isEnabled.value!!) settingViewModel.stopBreaks()
+        })
+        settingViewModel.work.observe(viewLifecycleOwner, Observer {
+            if(settingViewModel.isEnabled.value!!) settingViewModel.stopBreaks()
+        })
 
         binding.settingViewModel = settingViewModel
         binding.lifecycleOwner = this
