@@ -113,7 +113,7 @@
                 android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="44sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/switch_enabled"
+                app:layout_constraintBottom_toTopOf="@+id/button_start"
                 app:layout_constraintDimensionRatio="w,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.2"
@@ -172,28 +172,13 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="24dp"
                 android:fontFamily="@font/montserrat"
-                android:onClick="@{() -> settingViewModel.startBreaks()}"
+                android:onClick="@{() -> settingViewModel.toggleBreaks()}"
                 android:text="@{settingViewModel.isEnabled}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <Switch
-                android:id="@+id/switch_enabled"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:checked="@={settingViewModel.isEnabled}"
-                android:onClick="@{() -> settingViewModel.toggleEnabled()}"
-                android:switchPadding="8dp"
-                android:text="@string/switch_enabled_text"
-                android:textSize="18sp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/button_start"
-                app:layout_constraintEnd_toEndOf="@+id/button_start"
-                app:layout_constraintStart_toStartOf="@+id/button_start" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,14 +27,14 @@ class RestFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.restViewModel = restViewModel
 
-        restViewModel.startTimer()
-
         restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
             if(it == 0) {
                 if(Build.VERSION.SDK_INT >= 21) activity!!.finishAndRemoveTask()
                 else activity!!.finishAffinity()
             }
         })
+
+        restViewModel.startTimer()
 
         return binding.root
     }
