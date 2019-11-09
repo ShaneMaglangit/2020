@@ -75,4 +75,36 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             .makeText(getApplication(), "Break is now ${if(isEnabled.value!!) "enabled" else "disabled"}", Toast.LENGTH_SHORT)
             .show()
     }
+
+    fun enableBreaks() {
+        editor.putInt("break_duration", duration.value!!)
+        editor.putInt("work_duration", work.value!!)
+        editor.putBoolean("break_enabled", true)
+        editor.apply()
+
+        isEnabled.value = true
+    }
+
+    fun disableBreaks() {
+        editor.putBoolean("break_enabled", false)
+        editor.apply()
+
+        isEnabled.value = false
+    }
+
+    private fun startBreakService() {
+        val context = getApplication<Application>()
+
+        if(Build.VERSION.SDK_INT >= 26) {
+            context.startForegroundService(Intent(context, BreakService::class.java))
+        }
+        else {
+            context.startService(Intent(context, BreakService::class.java))
+        }
+    }
+
+    private fun stopBreakService() {
+        getApplication<Application>().stopService(Intent(getApplication(), BreakService::class.java))
+    }
+
 }

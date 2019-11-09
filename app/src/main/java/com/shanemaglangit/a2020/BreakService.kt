@@ -8,6 +8,7 @@ import android.content.*
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 
 class BreakService : Service() {
@@ -33,9 +34,11 @@ class BreakService : Service() {
                 when (intent.action) {
                     Intent.ACTION_SCREEN_OFF -> {
                         stopTimer()
+                        Log.i("BreakService", "Timer stopped with $remainingMillis")
                     }
-                    Intent.ACTION_SCREEN_ON -> {
+                    Intent.ACTION_USER_PRESENT -> {
                         startTimer(remainingMillis)
+                        Log.i("BreakService", "Timer resumed with $remainingMillis")
                     }
                 }
             }
@@ -56,7 +59,7 @@ class BreakService : Service() {
             .build()
 
         val intentFilter = IntentFilter()
-        intentFilter.addAction(Intent.ACTION_SCREEN_ON)
+        intentFilter.addAction(Intent.ACTION_USER_PRESENT)
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
 
         startTimer(workDuration)
