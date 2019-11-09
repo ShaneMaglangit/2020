@@ -56,12 +56,11 @@
             android:id="@+id/button_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_ondemand_video_24px"
             android:text="@string/button_skip_text"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ad_break"
             app:layout_constraintEnd_toEndOf="@+id/progress_time_elapsed"
             app:layout_constraintStart_toStartOf="@+id/progress_time_elapsed"
-            app:layout_constraintTop_toBottomOf="@+id/progress_time_elapsed" />
+            app:layout_constraintTop_toBottomOf="@+id/text_timeleft_caption" />
 
         <TextView
             android:id="@+id/text_timeleft_caption"
@@ -75,6 +74,20 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/text_timeleft"
             app:layout_constraintTop_toTopOf="@+id/text_timeleft" />
+
+        <!--ca-app-pub-8046142593718549/2545544150-->
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_break"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32dp"
+            app:adSize="LARGE_BANNER"
+            app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

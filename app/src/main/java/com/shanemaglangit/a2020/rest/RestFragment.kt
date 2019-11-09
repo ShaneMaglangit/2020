@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.AdRequest
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.FragmentRestBinding
 
@@ -24,8 +25,11 @@ class RestFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rest, container, false)
         restViewModel = ViewModelProvider(this, RestViewModelFactory(activity!!.application)).get(RestViewModel::class.java)
 
+        binding.adBreak.loadAd(AdRequest.Builder().build())
         binding.lifecycleOwner = this
         binding.restViewModel = restViewModel
+
+        restViewModel.startTimer()
 
         restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
             if(it == 0) {
@@ -33,8 +37,6 @@ class RestFragment : Fragment() {
                 else activity!!.finishAffinity()
             }
         })
-
-        restViewModel.startTimer()
 
         return binding.root
     }
