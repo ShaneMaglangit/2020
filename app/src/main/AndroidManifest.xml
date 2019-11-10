@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <service
-            android:name=".BreakService"
+            android:name=".service.BreakService"
             android:enabled="true"
             android:exported="true" />
 

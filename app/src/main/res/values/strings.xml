@@ -7,6 +7,13 @@
     <string name="button_start">Start breaks</string>
     <string name="button_stop">Stop breaks</string>
 
+    <string name="text_performance">YOUR PERFORMANCE</string>
+    <string name="text_preferences">MODIFY YOUR BREAKS</string>
+    <string name="text_rating_sub">YOUR OVERALL RATING</string>
+    <string name="text_total_sub">TOTAL</string>
+    <string name="text_completed_sub">COMPLETED</string>
+    <string name="text_skipped_sub">SKIPPED</string>
+
     <string name="text_message">Relax your mind, think about the things that makes you happy</string>
     <string name="text_timeleft_caption">second(s) left</string>
     <string name="button_skip_text">Skip break</string>

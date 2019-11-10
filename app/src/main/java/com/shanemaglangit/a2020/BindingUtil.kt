@@ -17,13 +17,13 @@ fun setText(view: Button, value: Boolean) {
     when(value) {
         true -> {
             view.text = view.resources.getString(R.string.button_stop)
-            view.setTextColor(ContextCompat.getColor(view.context, R.color.colorPrimary))
-            view.setBackgroundColor(ContextCompat.getColor(view.context, R.color.white))
+            view.setTextColor(ContextCompat.getColor(view.context, R.color.primaryColor))
+            view.setBackgroundColor(ContextCompat.getColor(view.context, R.color.secondaryColor))
         }
         false -> {
             view.text = view.resources.getString(R.string.button_start)
-            view.setTextColor(ContextCompat.getColor(view.context, R.color.white))
-            view.setBackgroundColor(ContextCompat.getColor(view.context, R.color.colorPrimary))
+            view.setTextColor(ContextCompat.getColor(view.context, R.color.secondaryColor))
+            view.setBackgroundColor(ContextCompat.getColor(view.context, R.color.primaryColor))
         }
     }
 }

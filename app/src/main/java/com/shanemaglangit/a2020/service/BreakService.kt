@@ -1,4 +1,4 @@
-package com.shanemaglangit.a2020
+package com.shanemaglangit.a2020.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,6 +10,8 @@ import android.os.CountDownTimer
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.shanemaglangit.a2020.MainActivity
+import com.shanemaglangit.a2020.R
 
 class BreakService : Service() {
     private lateinit var alarmReceiver: BroadcastReceiver
@@ -50,7 +52,9 @@ class BreakService : Service() {
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val settingPendingIntent = PendingIntent.getActivity(this, 0, settingIntent, 0)
 
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+        val notification = NotificationCompat.Builder(this,
+            CHANNEL_ID
+        )
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle("Break reminders are active")
             .setContentText("Click here to modify your preferences")

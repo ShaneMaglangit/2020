@@ -2,6 +2,7 @@ package com.shanemaglangit.a2020.rest
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.CountDownTimer
@@ -12,7 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shanemaglangit.a2020.R
 
-class RestViewModel(application: Application) : AndroidViewModel(application) {
+class RestViewModel(application: Application, sharedPreferences: SharedPreferences) : AndroidViewModel(application) {
     private val sharedPreferences =
         application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
 

@@ -1,79 +1,40 @@
 package com.shanemaglangit.a2020.setting
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.util.Log
-import android.widget.Toast
+import android.content.SharedPreferences
+import android.os.Build
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.shanemaglangit.a2020.AlarmReceiver
-import com.shanemaglangit.a2020.setAlarmManager
+import com.shanemaglangit.a2020.service.BreakService
 
-class SettingViewModel(application: Application) : AndroidViewModel(application) {
-    private val sharedPreferences
-            = application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
+class SettingViewModel(
+    application: Application,
+    sharedPreferences: SharedPreferences
+) : AndroidViewModel(application) {
     private val editor = sharedPreferences.edit()
 
-    private val alarmReceiver = AlarmReceiver()
+    private val _showDisabledSnackbar = MutableLiveData<Boolean>()
+    val showDisabledSnackbar: LiveData<Boolean>
+            get() = _showDisabledSnackbar
 
-    val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20000) / 1000)
-    val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 1200000) / 60000)
+    private val _invalidFields = MutableLiveData<Boolean>()
+    val invalidFields: LiveData<Boolean>
+        get() = _invalidFields
+
+    val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20))
+    val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 20))
     val isEnabled = MutableLiveData<Boolean>(sharedPreferences.getBoolean("break_enabled", false))
 
-    fun startBreaks() {
-        if((work.value == 0) or (duration.value == 0)) {
-            Toast
-                .makeText(getApplication(), "Fields can not be set to 0!", Toast.LENGTH_SHORT)
-                .show()
+    fun toggleBreaks() {
+        if(isEnabled.value == false) {
+            if((work.value == 0) or (duration.value == 0)) _invalidFields.value = true
+            else enableBreaks()
         }
-        else {
-            editor.putInt("break_duration", duration.value!!)
-            editor.putInt("work_duration", work.value!!)
-            editor.apply()
-
-            setAlarmManager(getApplication())
-
-            Toast
-                .makeText(getApplication(), "Breaks are now started!", Toast.LENGTH_SHORT)
-                .show()
-
-            isEnabled.value = true
+        else if(isEnabled.value == true) {
+            disableBreaks()
         }
-    }
-
-    fun stopBreaks() {
-        if(isEnabled.value!!) {
-            isEnabled.value = false
-        }
-    }
-
-    fun toggleEnabled() {
-        try {
-            if (isEnabled.value!!) {
-                val intentFilter = IntentFilter()
-                intentFilter.addAction(Intent.ACTION_SCREEN_ON)
-                intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
-
-                getApplication<Application>().registerReceiver(alarmReceiver, intentFilter)
-            }
-            else {
-                getApplication<Application>().unregisterReceiver(alarmReceiver)
-            }
-        }
-        catch(illegalArgumentException: IllegalArgumentException) {
-            Log.i("SettingViewModel", illegalArgumentException.toString())
-        }
-
-        editor.putBoolean("break_enabled", isEnabled.value!!)
-        editor.apply()
-
-        setAlarmManager(getApplication())
-
-        Toast
-            .makeText(getApplication(), "Break is now ${if(isEnabled.value!!) "enabled" else "disabled"}", Toast.LENGTH_SHORT)
-            .show()
     }
 
     fun enableBreaks() {
@@ -83,6 +44,13 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         editor.apply()
 
         isEnabled.value = true
+
+        if(Build.VERSION.SDK_INT >= 26) {
+            getApplication<Application>().startForegroundService(Intent(getApplication(), BreakService::class.java))
+        }
+        else {
+            getApplication<Application>().startService(Intent(getApplication(), BreakService::class.java))
+        }
     }
 
     fun disableBreaks() {
@@ -90,21 +58,16 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         editor.apply()
 
         isEnabled.value = false
-    }
+        _showDisabledSnackbar.value = true
 
-    private fun startBreakService() {
-        val context = getApplication<Application>()
-
-        if(Build.VERSION.SDK_INT >= 26) {
-            context.startForegroundService(Intent(context, BreakService::class.java))
-        }
-        else {
-            context.startService(Intent(context, BreakService::class.java))
-        }
-    }
-
-    private fun stopBreakService() {
         getApplication<Application>().stopService(Intent(getApplication(), BreakService::class.java))
     }
 
+    fun disabledSnackbarComplete() {
+        _showDisabledSnackbar.value = false
+    }
+
+    fun invalidFieldsSnackbarComplete() {
+        _invalidFields.value = false
+    }
 }
