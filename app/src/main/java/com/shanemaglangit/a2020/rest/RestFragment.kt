@@ -1,7 +1,6 @@
 package com.shanemaglangit.a2020.rest
 
 
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,19 +13,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.ads.AdRequest
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.FragmentRestBinding
-import org.koin.android.ext.android.inject
 
 class RestFragment : Fragment() {
     private lateinit var binding: FragmentRestBinding
     private lateinit var restViewModel: RestViewModel
-    private val sharedPreferences: SharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rest, container, false)
-        restViewModel = ViewModelProvider(this, RestViewModelFactory(activity!!.application, sharedPreferences)).get(RestViewModel::class.java)
+        restViewModel = ViewModelProvider(this, RestViewModelFactory(activity!!.application)).get(RestViewModel::class.java)
 
         binding.adBreak.loadAd(AdRequest.Builder().build())
         binding.lifecycleOwner = this

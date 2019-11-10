@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.shanemaglangit.a2020.MainActivity
 import com.shanemaglangit.a2020.R
+import com.shanemaglangit.a2020.rest.RestActivity
 
 class BreakService : Service() {
     private lateinit var alarmReceiver: BroadcastReceiver
@@ -49,12 +50,10 @@ class BreakService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val settingIntent = Intent(this, MainActivity::class.java)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val settingPendingIntent = PendingIntent.getActivity(this, 0, settingIntent, 0)
 
-        val notification = NotificationCompat.Builder(this,
-            CHANNEL_ID
-        )
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle("Break reminders are active")
             .setContentText("Click here to modify your preferences")
@@ -90,9 +89,8 @@ class BreakService : Service() {
             }
 
             override fun onFinish() {
-                val restIntent = Intent(this@BreakService, MainActivity::class.java)
-                .putExtra("startCountdown", true)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                val restIntent = Intent(this@BreakService, RestActivity::class.java)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
                 startActivity(restIntent)
                 startTimer(workDuration + breakDuration)

@@ -11,6 +11,17 @@ import androidx.databinding.InverseBindingAdapter
 fun setText(view: TextView, value: Int) {
     view.text = value.toString()
 }
+@BindingAdapter("android:text")
+fun setText(view: TextView, value: Double) {
+    when {
+        value >= 8 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingWonderful))}
+        value >= 6 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingNice))}
+        value >= 4 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingGood))}
+        value >= 2 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingBad))}
+        value >= 0 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingHorrible))}
+    }
+    view.text = String.format("%.2f", value)
+}
 
 @BindingAdapter("android:text")
 fun setText(view: Button, value: Boolean) {
@@ -30,7 +41,9 @@ fun setText(view: Button, value: Boolean) {
 
 @BindingAdapter("android:progress")
 fun setProgress(view: SeekBar, value: Int) {
-    if(view.progress != value / 5) view.progress = value / 5
+    if(view.progress != value / 5) {
+        view.progress = value / 5
+    }
 }
 
 @InverseBindingAdapter(attribute = "android:progress")

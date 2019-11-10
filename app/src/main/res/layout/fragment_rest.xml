@@ -57,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_skip_text"
+            android:onClick="@{() -> restViewModel.skipRest()}"
             app:layout_constraintBottom_toTopOf="@+id/ad_break"
             app:layout_constraintEnd_toEndOf="@+id/progress_time_elapsed"
             app:layout_constraintStart_toStartOf="@+id/progress_time_elapsed"

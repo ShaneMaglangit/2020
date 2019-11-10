@@ -9,4 +9,10 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="accentColor">#FB6B00</color>
+
+    <color name="ratingHorrible">#cc3300</color>
+    <color name="ratingBad">#ff9966</color>
+    <color name="ratingGood">#ffcc00</color>
+    <color name="ratingNice">#99cc33</color>
+    <color name="ratingWonderful">#339900</color>
 </resources>

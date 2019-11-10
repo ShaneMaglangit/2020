@@ -1,18 +1,16 @@
 package com.shanemaglangit.a2020.setting
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shanemaglangit.a2020.service.BreakService
 
-class SettingViewModel(
-    application: Application,
-    sharedPreferences: SharedPreferences
-) : AndroidViewModel(application) {
+class SettingViewModel(application: Application) : AndroidViewModel(application) {
+    private val sharedPreferences = application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
 
     private val _showDisabledSnackbar = MutableLiveData<Boolean>()
@@ -23,9 +21,32 @@ class SettingViewModel(
     val invalidFields: LiveData<Boolean>
         get() = _invalidFields
 
+    private val _totalBreak = MutableLiveData<Int>(sharedPreferences.getInt("total_break", 0))
+    val totalBreak: LiveData<Int>
+        get() = _totalBreak
+
+    private val _completedBreak = MutableLiveData<Int>(sharedPreferences.getInt("completed_break", 0))
+    val completedBreak: LiveData<Int>
+        get() = _completedBreak
+
+    private val _skippedBreak = MutableLiveData<Int>(sharedPreferences.getInt("skipped_break", 0))
+    val skippedBreak: LiveData<Int>
+        get() = _skippedBreak
+
+    private val _userRating = MutableLiveData<Double>()
+    val userRating: LiveData<Double>
+        get() = _userRating
+
     val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20))
     val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 20))
     val isEnabled = MutableLiveData<Boolean>(sharedPreferences.getBoolean("break_enabled", false))
+
+    init {
+        _userRating.value =
+            if(_totalBreak.value != 0) {
+                _completedBreak.value!!.toDouble() / _totalBreak.value!!.toDouble() * 10
+            } else 10.0
+    }
 
     fun toggleBreaks() {
         if(isEnabled.value == false) {

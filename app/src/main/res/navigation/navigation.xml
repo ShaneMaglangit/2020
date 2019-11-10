@@ -10,9 +10,4 @@
         android:name="com.shanemaglangit.a2020.setting.SettingFragment"
         android:label="fragment_lite"
         tools:layout="@layout/fragment_setting" />
-    <fragment
-        android:id="@+id/restFragment"
-        android:name="com.shanemaglangit.a2020.rest.RestFragment"
-        android:label="RestFragment"
-        tools:layout="@layout/fragment_rest"  />
 </navigation>
