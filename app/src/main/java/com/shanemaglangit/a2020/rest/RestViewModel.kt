@@ -18,7 +18,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     private val editor = sharedPreferences.edit()
     private lateinit var timer: CountDownTimer
 
-    private val mediaPlayer = MediaPlayer.create(application, R.raw.tropical)
+    private val mediaPlayer = MediaPlayer.create(application, R.raw.notification)
     private val vibrator = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
     private var _progress = MutableLiveData<Int>()
