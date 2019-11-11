@@ -2,6 +2,7 @@ package com.shanemaglangit.a2020.setting
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +50,9 @@ class SettingFragment : Fragment() {
 
     private fun SeekBar.setOnChangeListener() {
         this.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seek: SeekBar?, progress: Int, isUser: Boolean) {}
+            override fun onProgressChanged(seek: SeekBar?, progress: Int, isUser: Boolean) {
+                Log.i("SettingFragment", "Progress is now ${progress * 5}")
+            }
             override fun onStartTrackingTouch(seek: SeekBar?) {}
             override fun onStopTrackingTouch(seek: SeekBar?) {
                 if(settingViewModel.isEnabled.value!!) settingViewModel.disableBreaks()

@@ -11,6 +11,7 @@ import androidx.databinding.InverseBindingAdapter
 fun setText(view: TextView, value: Int) {
     view.text = value.toString()
 }
+
 @BindingAdapter("android:text")
 fun setText(view: TextView, value: Double) {
     when {
