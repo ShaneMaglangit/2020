@@ -23,7 +23,10 @@ class RestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rest, container, false)
-        restViewModel = ViewModelProvider(this, RestViewModelFactory(activity!!.application)).get(RestViewModel::class.java)
+        restViewModel = ViewModelProvider(
+            this,
+            RestViewModelFactory(activity!!.application)
+        ).get(RestViewModel::class.java)
 
         binding.adBreak.loadAd(AdRequest.Builder().build())
         binding.lifecycleOwner = this
@@ -32,8 +35,8 @@ class RestFragment : Fragment() {
         restViewModel.startTimer()
 
         restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
-            if(it == 0) {
-                if(Build.VERSION.SDK_INT >= 21) activity!!.finishAndRemoveTask()
+            if (it == 0) {
+                if (Build.VERSION.SDK_INT >= 21) activity!!.finishAndRemoveTask()
                 else activity!!.finishAffinity()
             }
         })

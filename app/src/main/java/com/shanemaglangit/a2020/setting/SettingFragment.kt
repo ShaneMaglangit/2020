@@ -2,13 +2,13 @@ package com.shanemaglangit.a2020.setting
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -24,39 +24,44 @@ class SettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
-        settingViewModel = ViewModelProvider(this, SettingViewModelFactory(activity!!.application)).get(SettingViewModel::class.java)
+        settingViewModel =
+            ViewModelProvider(this, SettingViewModelFactory(activity!!.application)).get(
+                SettingViewModel::class.java
+            )
 
-        binding.seekbarDuration.setOnChangeListener()
-        binding.seekbarWork.setOnChangeListener()
         binding.settingViewModel = settingViewModel
         binding.lifecycleOwner = this
 
-        settingViewModel.showDisabledSnackbar.observe(this, Observer {
-            if(it) {
-                Snackbar.make(binding.root, "Breaks are now disabled", Snackbar.LENGTH_SHORT).show()
-                settingViewModel.disabledSnackbarComplete()
-            }
-        })
-
-        settingViewModel.invalidFields.observe(this, Observer {
-            if(it) {
-                Snackbar.make(binding.root, "Fields cannot be set to 0", Snackbar.LENGTH_SHORT).show()
-                settingViewModel.invalidFieldsSnackbarComplete()
-            }
-        })
+        settingViewModel.duration.setFieldChangeObserver()
+        settingViewModel.work.setFieldChangeObserver()
+        settingViewModel.showDisabledSnackbar.setDisabledSnackbarObserver()
+        settingViewModel.invalidFields.setInvalidFieldObserver()
 
         return binding.root
     }
 
-    private fun SeekBar.setOnChangeListener() {
-        this.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seek: SeekBar?, progress: Int, isUser: Boolean) {
-                Log.i("SettingFragment", "Progress is now ${progress * 5}")
+    private fun LiveData<Boolean>.setInvalidFieldObserver() {
+        this.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Snackbar.make(binding.root, "Fields cannot be set to 0", Snackbar.LENGTH_SHORT)
+                    .show()
+                settingViewModel.invalidFieldsSnackbarComplete()
             }
-            override fun onStartTrackingTouch(seek: SeekBar?) {}
-            override fun onStopTrackingTouch(seek: SeekBar?) {
-                if(settingViewModel.isEnabled.value!!) settingViewModel.disableBreaks()
+        })
+    }
+
+    private fun LiveData<Boolean>.setDisabledSnackbarObserver() {
+        this.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Snackbar.make(binding.root, "Breaks are now disabled", Snackbar.LENGTH_SHORT).show()
+                settingViewModel.disabledSnackbarComplete()
             }
+        })
+    }
+
+    private fun MutableLiveData<Int>.setFieldChangeObserver() {
+        this.observe(viewLifecycleOwner, Observer {
+            settingViewModel.fieldsChanged()
         })
     }
 }

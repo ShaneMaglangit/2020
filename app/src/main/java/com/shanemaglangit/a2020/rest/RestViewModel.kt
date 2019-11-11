@@ -13,7 +13,8 @@ import androidx.lifecycle.MutableLiveData
 import com.shanemaglangit.a2020.R
 
 class RestViewModel(application: Application) : AndroidViewModel(application) {
-    private val sharedPreferences = application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
+    private val sharedPreferences =
+        application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
     private lateinit var timer: CountDownTimer
 
@@ -41,7 +42,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
         editor.putInt("skipped_break", skippedBreaks + 1)
         editor.apply()
 
-        timer = object: CountDownTimer(max.value!!.toLong(), 10) {
+        timer = object : CountDownTimer(max.value!!.toLong(), 10) {
             override fun onTick(millisUntilFinished: Long) {
                 val millisElapsed = max.value!! - millisUntilFinished.toInt()
                 _timeLeft.value = millisUntilFinished.toInt() / 1000
@@ -68,7 +69,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     fun playRingtoneAndVibrate() {
         mediaPlayer.start()
 
-        if(Build.VERSION.SDK_INT >= 26)
+        if (Build.VERSION.SDK_INT >= 26)
             vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
         else vibrator.vibrate(500)
     }

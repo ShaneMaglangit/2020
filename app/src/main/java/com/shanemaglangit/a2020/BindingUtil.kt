@@ -15,11 +15,21 @@ fun setText(view: TextView, value: Int) {
 @BindingAdapter("android:text")
 fun setText(view: TextView, value: Double) {
     when {
-        value >= 8 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingWonderful))}
-        value >= 6 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingNice))}
-        value >= 4 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingGood))}
-        value >= 2 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingBad))}
-        value >= 0 -> {view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingHorrible))}
+        value >= 8 -> view.setTextColor(
+            ContextCompat.getColor(
+                view.context,
+                R.color.ratingWonderful
+            )
+        )
+        value >= 6 -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingNice))
+        value >= 4 -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingGood))
+        value >= 2 -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingBad))
+        value >= 0 -> view.setTextColor(
+            ContextCompat.getColor(
+                view.context,
+                R.color.ratingHorrible
+            )
+        )
     }
     view.text = String.format("%.2f", value)
 }

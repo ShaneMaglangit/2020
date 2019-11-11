@@ -6,7 +6,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val appModule = module {
-    single { provideSharedPreferences(androidContext())}
+    single { provideSharedPreferences(androidContext()) }
 }
 
 private fun provideSharedPreferences(context: Context): SharedPreferences =
