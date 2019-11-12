@@ -99,6 +99,14 @@ class BreakService : Service() {
     private fun startTimer(endOfTimerInMillis: Long) {
         timer = object : CountDownTimer(endOfTimerInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                if (millisUntilFinished == 30000L) {
+                    val notification = NotificationCompat.Builder(this@BreakService, CHANNEL_ID)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setContentTitle("Break will start in 30 seconds")
+                        .setContentText("Save your progress or pause the things your doing now.")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .build()
+                }
                 remainingMillis = millisUntilFinished
             }
 
