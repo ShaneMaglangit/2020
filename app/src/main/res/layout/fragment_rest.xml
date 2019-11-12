@@ -77,7 +77,6 @@
             app:layout_constraintStart_toEndOf="@+id/text_timeleft"
             app:layout_constraintTop_toTopOf="@+id/text_timeleft" />
 
-        <!--ca-app-pub-8046142593718549/2545544150-->
         <com.google.android.gms.ads.AdView
             android:id="@+id/ad_break"
             android:layout_width="wrap_content"
