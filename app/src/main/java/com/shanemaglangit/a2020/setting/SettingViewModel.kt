@@ -14,6 +14,10 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
 
+    private val _showEnabledSnackbar = MutableLiveData<Boolean>()
+    val showEnabledSnackbar: LiveData<Boolean>
+        get() = _showEnabledSnackbar
+
     private val _showDisabledSnackbar = MutableLiveData<Boolean>()
     val showDisabledSnackbar: LiveData<Boolean>
         get() = _showDisabledSnackbar
@@ -65,6 +69,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         editor.apply()
 
         isEnabled.value = true
+        _showEnabledSnackbar.value = true
 
         if (Build.VERSION.SDK_INT >= 26) {
             getApplication<Application>().startForegroundService(
@@ -102,6 +107,10 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         ) {
             disableBreaks()
         }
+    }
+
+    fun enabledSnackbarComplete() {
+        _showEnabledSnackbar.value = false
     }
 
     fun disabledSnackbarComplete() {
