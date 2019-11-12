@@ -33,30 +33,30 @@ class SettingFragment : Fragment() {
             )
 
         binding.textRating.startTextAnimation(
-            settingViewModel.userRating.value!!.toFloat(),
-            "%.2f",
+            settingViewModel.userRating.value!!,
             2500,
-            1500,
+            1000,
             true
         )
+
         binding.textTotal.startTextAnimation(
-            settingViewModel.totalBreak.value!!.toFloat(),
-            "%.0f",
+            settingViewModel.totalBreak.value!!,
             1500,
             1000
         )
+
         binding.textCompleted.startTextAnimation(
-            settingViewModel.completedBreak.value!!.toFloat(),
-            "%.0f",
+            settingViewModel.completedBreak.value!!,
             1500,
             1000
         )
+
         binding.textSkipped.startTextAnimation(
-            settingViewModel.skippedBreak.value!!.toFloat(),
-            "%.0f",
+            settingViewModel.skippedBreak.value!!,
             1500,
             1000
         )
+
         binding.settingViewModel = settingViewModel
         binding.lifecycleOwner = this
 
@@ -70,16 +70,15 @@ class SettingFragment : Fragment() {
     }
 
     private fun TextView.startTextAnimation(
-        endValue: Float,
-        format: String,
+        endValue: Int,
         duration: Long,
         delay: Long = 0,
         isRating: Boolean = false
     ) {
-        val valueAnimator = ValueAnimator.ofFloat(0F, endValue)
+        val valueAnimator = ValueAnimator.ofInt(0, endValue)
         valueAnimator.addUpdateListener {
-            if (isRating) setRatingText(this, String.format(format, valueAnimator.animatedValue))
-            else this.text = String.format(format, valueAnimator.animatedValue)
+            if (isRating) setRatingText(this, valueAnimator.animatedValue.toString())
+            else this.text = valueAnimator.animatedValue.toString()
         }
         valueAnimator.duration = duration
         valueAnimator.startDelay = delay

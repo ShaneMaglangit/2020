@@ -21,10 +21,10 @@ fun setRatingText(view: TextView, value: String) {
                 R.color.ratingWonderful
             )
         )
-        in 6F..8F -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingNice))
-        in 4F..6F -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingGood))
-        in 2F..4F -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingBad))
-        in 0F..2F -> view.setTextColor(
+        in 60F..80F -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingNice))
+        in 40F..60F -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingGood))
+        in 20F..40F -> view.setTextColor(ContextCompat.getColor(view.context, R.color.ratingBad))
+        in 00F..20F -> view.setTextColor(
             ContextCompat.getColor(
                 view.context,
                 R.color.ratingHorrible

@@ -19,4 +19,5 @@
     <string name="button_skip_text">Skip break</string>
     <string name="wallpaper_description">Wallpaper header</string>
     <string name="text_ad">This ad helps keep this app free</string>
+    <string name="text_start_value">0</string>
 </resources>

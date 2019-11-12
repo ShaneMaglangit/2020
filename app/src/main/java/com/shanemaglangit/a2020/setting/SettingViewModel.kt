@@ -39,8 +39,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     val skippedBreak: LiveData<Int>
         get() = _skippedBreak
 
-    private val _userRating = MutableLiveData<Double>()
-    val userRating: LiveData<Double>
+    private val _userRating = MutableLiveData<Int>()
+    val userRating: LiveData<Int>
         get() = _userRating
 
     val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20))
@@ -50,8 +50,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     init {
         _userRating.value =
             if (_totalBreak.value != 0) {
-                _completedBreak.value!!.toDouble() / _totalBreak.value!!.toDouble() * 10
-            } else 10.0
+                (_completedBreak.value!!.toDouble() / _totalBreak.value!!.toDouble() * 100).toInt()
+            } else 100
     }
 
     fun toggleBreaks() {
