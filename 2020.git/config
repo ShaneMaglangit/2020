@@ -1,9 +1,0 @@
-[core]
-	repositoryformatversion = 0
-	filemode = false
-	bare = true
-	ignorecase = true
-[remote "origin"]
-	url = git@github.com:/ShaneMaglangit/2020.git
-	fetch = +refs/*:refs/*
-	mirror = true
