@@ -8,7 +8,6 @@ import android.content.*
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.shanemaglangit.a2020.MainActivity
 import com.shanemaglangit.a2020.R
@@ -27,6 +26,10 @@ class BreakService : Service() {
         const val CHANNEL_ID = "CHANNEL_2020"
     }
 
+    /**
+     * Used to instantiate and initialize lateinit variables and is also responsible
+     * for getting the preferences set by the user in setting fragment.
+     */
     override fun onCreate() {
         super.onCreate()
         sharedPreferences = this.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
@@ -37,25 +40,25 @@ class BreakService : Service() {
         editor.putBoolean("break_enabled", true)
         editor.apply()
 
+        // Broadcast receiver to catch broadcast events.
         alarmReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.action) {
-                    Intent.ACTION_SCREEN_OFF -> {
-                        stopTimer()
-                        Log.i("BreakService", "Timer stopped with $remainingMillis")
-                    }
-                    Intent.ACTION_USER_PRESENT -> {
-                        startTimer(remainingMillis)
-                        Log.i("BreakService", "Timer resumed with $remainingMillis")
-                    }
-                    Intent.ACTION_SHUTDOWN -> {
-                        stopSelf()
-                    }
+                    // Used to pause the timer
+                    Intent.ACTION_SCREEN_OFF -> stopTimer()
+                    // Used to restart the timer
+                    Intent.ACTION_USER_PRESENT -> startTimer(remainingMillis)
+                    // Used to ensure the service stops when the phone is shutdpwn
+                    Intent.ACTION_SHUTDOWN -> stopSelf()
                 }
             }
         }
     }
 
+    /**
+     * Used when the foreground service is started that creates the notification,
+     * start the timer for the breaks, and register the receiver to catch broadcasts
+     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val settingIntent = Intent(this, MainActivity::class.java)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -81,11 +84,11 @@ class BreakService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 
-
+    /**
+     * Used to stop the timer and unregister the receiver
+     */
     override fun onDestroy() {
         super.onDestroy()
 
@@ -96,8 +99,15 @@ class BreakService : Service() {
         unregisterReceiver(alarmReceiver)
     }
 
+    /**
+     * Start the timer for the breaks
+     * @param endOfTimerInMillis duration of the timer
+     */
     private fun startTimer(endOfTimerInMillis: Long) {
         timer = object : CountDownTimer(endOfTimerInMillis, 1000) {
+            /**
+             * Used to keep track of the remaining milliseconds left
+             */
             override fun onTick(millisUntilFinished: Long) {
                 if (millisUntilFinished == 30000L) {
                     val notification = NotificationCompat.Builder(this@BreakService, CHANNEL_ID)
@@ -107,9 +117,13 @@ class BreakService : Service() {
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .build()
                 }
+
                 remainingMillis = millisUntilFinished
             }
 
+            /**
+             * Used to start the rest activity and restart the timer
+             */
             override fun onFinish() {
                 val restIntent = Intent(this@BreakService, RestActivity::class.java)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -122,10 +136,16 @@ class BreakService : Service() {
         timer.start()
     }
 
+    /**
+     * Used to stop the timer
+     */
     private fun stopTimer() {
         timer.cancel()
     }
 
+    /**
+     * Creates the notification channel for the foreground service
+     */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= 27) {
             val notificationManager =

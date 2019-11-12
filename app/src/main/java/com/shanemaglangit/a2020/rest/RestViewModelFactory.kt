@@ -4,6 +4,10 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+/**
+ * ViewModelFactory for the RestViewModel
+ * @param application application for the AndroidViewModel
+ */
 class RestViewModelFactory(
     private val application: Application
 ) : ViewModelProvider.Factory {

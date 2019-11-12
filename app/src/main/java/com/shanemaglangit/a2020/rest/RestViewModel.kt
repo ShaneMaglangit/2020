@@ -13,14 +13,18 @@ import androidx.lifecycle.MutableLiveData
 import com.shanemaglangit.a2020.R
 
 class RestViewModel(application: Application) : AndroidViewModel(application) {
+    // Shared Preferences
     private val sharedPreferences =
         application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
+
     private lateinit var timer: CountDownTimer
 
+    // Objects for Ringtone and Vibration
     private val mediaPlayer = MediaPlayer.create(application, R.raw.notification)
     private val vibrator = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
+    // Rest Values
     private var _progress = MutableLiveData<Int>()
     val progress: LiveData<Int>
         get() = _progress
@@ -33,15 +37,21 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     val max: LiveData<Int>
         get() = _max
 
+    // Performance Values
     private val totalBreaks = sharedPreferences.getInt("total_break", 0)
     private val completedBreaks = sharedPreferences.getInt("completed_break", 0)
     private val skippedBreaks = sharedPreferences.getInt("skipped_break", 0)
 
+    /**
+     * Used to start the timer
+     */
     fun startTimer() {
+        // Update the sharedPreferences
         editor.putInt("total_break", totalBreaks + 1)
         editor.putInt("skipped_break", skippedBreaks + 1)
         editor.apply()
 
+        // Create the timer object
         timer = object : CountDownTimer(max.value!!.toLong(), 10) {
             override fun onTick(millisUntilFinished: Long) {
                 val millisElapsed = max.value!! - millisUntilFinished.toInt()
@@ -61,11 +71,17 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
         timer.start()
     }
 
+    /**
+     * Used to skip the break
+     */
     fun skipRest() {
         timer.cancel()
         _timeLeft.value = 0
     }
 
+    /**
+     * Used to play the ringtone and vibrate
+     */
     fun playRingtoneAndVibrate() {
         mediaPlayer.start()
 

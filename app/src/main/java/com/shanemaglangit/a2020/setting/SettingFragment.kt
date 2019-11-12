@@ -32,11 +32,12 @@ class SettingFragment : Fragment() {
                 SettingViewModel::class.java
             )
 
+        binding.settingViewModel = settingViewModel
+        binding.lifecycleOwner = this
+
+        // Animate the performance text views
         binding.textRating.startTextAnimation(
-            settingViewModel.userRating.value!!,
-            2500,
-            1000,
-            true
+            settingViewModel.userRating.value!!, 2500, 1000, true
         )
 
         binding.textTotal.startTextAnimation(
@@ -57,9 +58,7 @@ class SettingFragment : Fragment() {
             1000
         )
 
-        binding.settingViewModel = settingViewModel
-        binding.lifecycleOwner = this
-
+        // Set up liveData observers
         settingViewModel.duration.setFieldChangeObserver()
         settingViewModel.work.setFieldChangeObserver()
         settingViewModel.showEnabledSnackbar.setEnabledSnackbarObserver()
@@ -69,6 +68,13 @@ class SettingFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Used to set a valueAnimator for the TextView
+     * @param endValue value where the animation will stop
+     * @param duration duration of the animation
+     * @param delay time before the animation starts
+     * @param isRating is the view a rating
+     */
     private fun TextView.startTextAnimation(
         endValue: Int,
         duration: Long,
@@ -85,6 +91,9 @@ class SettingFragment : Fragment() {
         valueAnimator.start()
     }
 
+    /**
+     * Used to set the observer for invalidField
+     */
     private fun LiveData<Boolean>.setInvalidFieldObserver() {
         this.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -95,6 +104,10 @@ class SettingFragment : Fragment() {
         })
     }
 
+
+    /**
+     * Used to set the observer for enabled breaks snackbar
+     */
     private fun LiveData<Boolean>.setEnabledSnackbarObserver() {
         this.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -104,6 +117,10 @@ class SettingFragment : Fragment() {
         })
     }
 
+
+    /**
+     * Used to set the observer for disabled breaks snackbar
+     */
     private fun LiveData<Boolean>.setDisabledSnackbarObserver() {
         this.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -113,6 +130,9 @@ class SettingFragment : Fragment() {
         })
     }
 
+    /**
+     * Used to set the observer for observing if the mutableLiveData changed
+     */
     private fun MutableLiveData<Int>.setFieldChangeObserver() {
         this.observe(viewLifecycleOwner, Observer {
             settingViewModel.fieldsChanged()
