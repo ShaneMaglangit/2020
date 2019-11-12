@@ -31,7 +31,7 @@ fun setRatingText(view: TextView, value: String) {
             )
         )
     }
-    view.text = value
+    view.text = String.format("%s%%", value)
 }
 
 @BindingAdapter("android:text")
