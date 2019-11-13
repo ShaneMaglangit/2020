@@ -77,7 +77,8 @@ class BreakService : Service() {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
         intentFilter.addAction(Intent.ACTION_SHUTDOWN)
 
-        startTimer(workDuration)
+        startTimer(20000)
+//        startTimer(workDuration)
         createNotificationChannel()
         registerReceiver(alarmReceiver, intentFilter)
         startForeground(1, notification)
@@ -126,7 +127,7 @@ class BreakService : Service() {
              */
             override fun onFinish() {
                 val restIntent = Intent(this@BreakService, RestActivity::class.java)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
                 startActivity(restIntent)
                 startTimer(workDuration + breakDuration)

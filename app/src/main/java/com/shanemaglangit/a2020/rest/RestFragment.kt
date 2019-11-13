@@ -36,9 +36,19 @@ class RestFragment : Fragment() {
 
         restViewModel.startTimer()
 
-        // Observe if the timer ends and end the activity
+        // Toogle the visiblity of views once timer ends
         restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
             if (it == 0) {
+                binding.textTimeleftCaption.visibility = View.GONE
+                binding.progressTimeElapsed.visibility = View.GONE
+                binding.textTimeleft.visibility = View.GONE
+                binding.buttonEnd.visibility = View.VISIBLE
+            }
+        })
+
+        // Stops the activity
+        restViewModel.endActivity.observe(viewLifecycleOwner, Observer {
+            if (it) {
                 if (Build.VERSION.SDK_INT >= 21) activity!!.finishAndRemoveTask()
                 else activity!!.finishAffinity()
             }

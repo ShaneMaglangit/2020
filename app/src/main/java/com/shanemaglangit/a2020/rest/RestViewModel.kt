@@ -24,16 +24,22 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     private val mediaPlayer = MediaPlayer.create(application, R.raw.notification)
     private val vibrator = application.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
+    // Observer variables for events
+    private val _endActivity = MutableLiveData<Boolean>()
+    val endActivity: LiveData<Boolean>
+        get() = _endActivity
+
+
     // Rest Values
-    private var _progress = MutableLiveData<Int>()
+    private val _progress = MutableLiveData<Int>()
     val progress: LiveData<Int>
         get() = _progress
 
-    private var _timeLeft = MutableLiveData<Int>()
+    private val _timeLeft = MutableLiveData<Int>()
     val timeLeft: LiveData<Int>
         get() = _timeLeft
 
-    private var _max = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20000))
+    private val _max = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20) * 1000)
     val max: LiveData<Int>
         get() = _max
 
@@ -72,11 +78,10 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Used to skip the break
+     * Used to close the activity
      */
-    fun skipRest() {
-        timer.cancel()
-        _timeLeft.value = 0
+    fun closeRest() {
+        _endActivity.value = true
     }
 
     /**
