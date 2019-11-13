@@ -12,13 +12,17 @@ android {
         applicationId "com.shanemaglangit.a2020"
         versionCode 1
         versionName "1.0"
-        buildConfigField("String", "ADMOB_ID", apikeyProperties['ADMOB_ID'])
+        manifestPlaceholders = [admobId:apikeyProperties["ADMOB_ID"]]
     }
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "AD_ID", apikeyProperties["AD_ID"]
+        }
+        debug {
+            resValue "string", "AD_ID", apikeyProperties["AD_TEST_ID"]
         }
     }
 }

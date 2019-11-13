@@ -81,7 +81,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="32dp"
             app:adSize="MEDIUM_RECTANGLE"
-            app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            app:adUnitId="@string/AD_ID"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
