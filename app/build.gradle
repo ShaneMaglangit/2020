@@ -3,11 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     defaultConfig {
         applicationId "com.shanemaglangit.a2020"
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "ADMOB_ID", apikeyProperties['ADMOB_ID'])
     }
     buildTypes {
         release {
