@@ -77,8 +77,7 @@ class BreakService : Service() {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
         intentFilter.addAction(Intent.ACTION_SHUTDOWN)
 
-        startTimer(20000)
-//        startTimer(workDuration)
+        startTimer(workDuration)
         createNotificationChannel()
         registerReceiver(alarmReceiver, intentFilter)
         startForeground(1, notification)
