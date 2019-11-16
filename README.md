@@ -10,8 +10,14 @@ As prescriped by eye doctors, the 20-20-20 rule does not only prevent eye strain
 # How to Rebuild
 To rebuild the application, you can procced with the following options:
 
-  1. Put your own Admob APP_ID and unitId for the banner or;
-  2. Remove the manifest meta data for Admob and remove the adView within the fragment_rest.xml layout.
+  1. Remove the manifest meta data for Admob and remove the adView within the fragment_rest.xml layout or;
+  2. Put your own Admob IDs within a apikey.properties file in your app folder following this format:
+```
+ADMOB_ID=yourAdmobId
+AD_ID=yourAdId
+AD_TEST_ID=admobTestId
+```    
+
 
 # Message from the Developer
 Hey! I hope that you can find this application useful. I've spend few weeks developing this app mainly to solve my own issue. Due to constant use of electronic devices, I found myself having to grab a pair of glasses which made me thinking that I have to take care of my eyes more. 
