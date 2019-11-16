@@ -6,8 +6,8 @@ A lot of us often find ourselves spending hours just tinkering around with our p
 As prescriped by eye doctors, the 20-20-20 rule does not only prevent eye strains but it will also help maintain healthy eye sight.
 
 # Screenshots from the Application
-<img src="https://imgur.com/a/jC73EB7"/>
-<img src="https://imgur.com/a/hHrhF9A"/>
+Main / Preference Screenshot: https://imgur.com/a/jC73EB7"
+Break Screenshot: https://imgur.com/a/hHrhF9A"
 
 # How to Rebuild
 To rebuild the application, create a apikey.properties file within your app folder and put the following using the given format:
