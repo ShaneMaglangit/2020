@@ -7,6 +7,7 @@ As prescriped by eye doctors, the 20-20-20 rule does not only prevent eye strain
 
 # Screenshots from the Application
 Main / Preference Screenshot: https://imgur.com/a/jC73EB7
+
 Break Screenshot: https://imgur.com/a/hHrhF9A
 
 # How to Rebuild
