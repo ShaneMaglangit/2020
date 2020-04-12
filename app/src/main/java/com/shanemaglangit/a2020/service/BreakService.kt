@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.*
+import android.media.RingtoneManager
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
@@ -18,6 +19,7 @@ class BreakService : Service() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var timer: CountDownTimer
+    private lateinit var notificationManager: NotificationManager
     private var breakDuration = 20000L
     private var workDuration = 1200000L
     private var remainingMillis = 0L
@@ -36,6 +38,7 @@ class BreakService : Service() {
         editor = sharedPreferences.edit()
         breakDuration = sharedPreferences.getInt("break_duration", 20).toLong() * 1000
         workDuration = sharedPreferences.getInt("work_duration", 20).toLong() * 60000
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         editor.putBoolean("break_enabled", true)
         editor.apply()
@@ -48,7 +51,7 @@ class BreakService : Service() {
                     Intent.ACTION_SCREEN_OFF -> stopTimer()
                     // Used to restart the timer
                     Intent.ACTION_USER_PRESENT -> startTimer(remainingMillis)
-                    // Used to ensure the service stops when the phone is shutdpwn
+                    // Used to ensure the service stops when the phone is shutdown
                     Intent.ACTION_SHUTDOWN -> stopSelf()
                 }
             }
@@ -63,12 +66,13 @@ class BreakService : Service() {
         val settingIntent = Intent(this, MainActivity::class.java)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val settingPendingIntent = PendingIntent.getActivity(this, 0, settingIntent, 0)
-
+        val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle("Break reminders are active")
             .setContentText("Click here to modify your preferences")
             .setContentIntent(settingPendingIntent)
+            .setSound(notificationSound)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
@@ -109,15 +113,6 @@ class BreakService : Service() {
              * Used to keep track of the remaining milliseconds left
              */
             override fun onTick(millisUntilFinished: Long) {
-                if (millisUntilFinished == 30000L) {
-                    val notification = NotificationCompat.Builder(this@BreakService, CHANNEL_ID)
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle("Break will start in 30 seconds")
-                        .setContentText("Save your progress or pause the things your doing now.")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                        .build()
-                }
-
                 remainingMillis = millisUntilFinished
             }
 
@@ -148,8 +143,6 @@ class BreakService : Service() {
      */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= 27) {
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notificationChannel = NotificationChannel(
                 CHANNEL_ID,
                 "2020 Notification Channel",

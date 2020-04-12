@@ -77,7 +77,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     /**
      * Used to enable breaks and start the break service
      */
-    fun enableBreaks() {
+    private fun enableBreaks() {
         // Update the sharedPreferences
         editor.putInt("break_duration", duration.value!!)
         editor.putInt("work_duration", work.value!!)
@@ -108,7 +108,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     /**
      * Used to disable breakd and stop the break service
      */
-    fun disableBreaks() {
+    private fun disableBreaks() {
         // Update the liveData
         isEnabled.value = false
         _showDisabledSnackbar.value = true

@@ -36,7 +36,7 @@ class RestFragment : Fragment() {
 
         restViewModel.startTimer()
 
-        // Toogle the visiblity of views once timer ends
+        // Toggle the visibility of views once timer ends
         restViewModel.timeLeft.observe(viewLifecycleOwner, Observer {
             if (it == 0) {
                 binding.textTimeleftCaption.visibility = View.GONE

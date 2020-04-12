@@ -39,14 +39,21 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     val timeLeft: LiveData<Int>
         get() = _timeLeft
 
-    private val _max = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20) * 1000)
+    private val _max = MutableLiveData<Int>()
     val max: LiveData<Int>
         get() = _max
 
     // Performance Values
-    private val totalBreaks = sharedPreferences.getInt("total_break", 0)
-    private val completedBreaks = sharedPreferences.getInt("completed_break", 0)
-    private val skippedBreaks = sharedPreferences.getInt("skipped_break", 0)
+    private val totalBreaks: Int
+    private val completedBreaks: Int
+    private val skippedBreaks: Int
+
+    init {
+        totalBreaks = sharedPreferences.getInt("total_break", 0)
+        completedBreaks = sharedPreferences.getInt("completed_break", 0)
+        skippedBreaks = sharedPreferences.getInt("skipped_break", 0)
+        _max.value = sharedPreferences.getInt("break_duration", 20) * 1000
+    }
 
     /**
      * Used to start the timer
