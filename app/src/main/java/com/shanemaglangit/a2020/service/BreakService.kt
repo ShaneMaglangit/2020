@@ -10,7 +10,7 @@ import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.shanemaglangit.a2020.MainActivity
+import com.shanemaglangit.a2020.setting.SettingActivity
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.rest.RestActivity
 
@@ -63,12 +63,12 @@ class BreakService : Service() {
      * start the timer for the breaks, and register the receiver to catch broadcasts
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val settingIntent = Intent(this, MainActivity::class.java)
+        val settingIntent = Intent(this, SettingActivity::class.java)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val settingPendingIntent = PendingIntent.getActivity(this, 0, settingIntent, 0)
         val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.drawable.ic_notification_icon)
             .setContentTitle("Break reminders are active")
             .setContentText("Click here to modify your preferences")
             .setContentIntent(settingPendingIntent)
