@@ -2,6 +2,7 @@ package com.shanemaglangit.a2020.rest
 
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.CountDownTimer
@@ -29,7 +30,6 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     val endActivity: LiveData<Boolean>
         get() = _endActivity
 
-
     // Rest Values
     private val _progress = MutableLiveData<Int>()
     val progress: LiveData<Int>
@@ -43,6 +43,10 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
     val max: LiveData<Int>
         get() = _max
 
+    private val _messages = MutableLiveData<Array<String>>()
+    val messages: LiveData<Array<String>>
+        get() = _messages
+
     // Performance Values
     private val totalBreaks: Int
     private val completedBreaks: Int
@@ -53,6 +57,7 @@ class RestViewModel(application: Application) : AndroidViewModel(application) {
         completedBreaks = sharedPreferences.getInt("completed_break", 0)
         skippedBreaks = sharedPreferences.getInt("skipped_break", 0)
         _max.value = sharedPreferences.getInt("break_duration", 20) * 1000
+        _messages.value = application.resources.getStringArray(R.array.rest_messages)
     }
 
     /**

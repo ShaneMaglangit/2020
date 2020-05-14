@@ -2,15 +2,19 @@ package com.shanemaglangit.a2020.setting
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.snackbar.Snackbar
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.ActivityMainBinding
 import com.shanemaglangit.a2020.setRatingText
@@ -18,12 +22,18 @@ import com.shanemaglangit.a2020.setRatingText
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var settingViewModel: SettingViewModel
+    private lateinit var interstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MobileAds.initialize(this) {}
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        settingViewModel = ViewModelProvider(this, SettingViewModelFactory(application)).get(SettingViewModel::class.java)
+        settingViewModel = ViewModelProvider(
+            this,
+            SettingViewModelFactory(application)
+        ).get(SettingViewModel::class.java)
 
         binding.settingViewModel = settingViewModel
         binding.lifecycleOwner = this
@@ -53,9 +63,11 @@ class SettingActivity : AppCompatActivity() {
         // Set up liveData observers
         settingViewModel.duration.setFieldChangeObserver()
         settingViewModel.work.setFieldChangeObserver()
-        settingViewModel.showEnabledSnackbar.setEnabledSnackbarObserver()
-        settingViewModel.showDisabledSnackbar.setDisabledSnackbarObserver()
         settingViewModel.invalidFields.setInvalidFieldObserver()
+        settingViewModel.clickCount.setCountObserver()
+
+        // Load the interstitial ad
+        loadInterstitialAd()
     }
 
     /**
@@ -87,38 +99,17 @@ class SettingActivity : AppCompatActivity() {
     private fun LiveData<Boolean>.setInvalidFieldObserver() {
         this.observe(this@SettingActivity, Observer {
             if (it) {
-                Snackbar.make(binding.root, "Fields cannot be set to 0", Snackbar.LENGTH_SHORT)
+                AlertDialog.Builder(ContextThemeWrapper(this@SettingActivity, R.style.AppTheme_Dialog))
+                    .setTitle("Invalid fields")
+                    .setMessage("Fields cannot be set to 0")
+                    .setCancelable(true)
+                    .setPositiveButton("Ok", null)
+                    .setOnDismissListener { settingViewModel.invalidFieldsDialogComplete() }
                     .show()
-                settingViewModel.invalidFieldsSnackbarComplete()
             }
         })
     }
 
-
-    /**
-     * Used to set the observer for enabled breaks snackbar
-     */
-    private fun LiveData<Boolean>.setEnabledSnackbarObserver() {
-        this.observe(this@SettingActivity, Observer {
-            if (it) {
-                Snackbar.make(binding.root, "Breaks are now enabled", Snackbar.LENGTH_SHORT).show()
-                settingViewModel.enabledSnackbarComplete()
-            }
-        })
-    }
-
-
-    /**
-     * Used to set the observer for disabled breaks snackbar
-     */
-    private fun LiveData<Boolean>.setDisabledSnackbarObserver() {
-        this.observe(this@SettingActivity, Observer {
-            if (it) {
-                Snackbar.make(binding.root, "Breaks are now disabled", Snackbar.LENGTH_SHORT).show()
-                settingViewModel.disabledSnackbarComplete()
-            }
-        })
-    }
 
     /**
      * Used to set the observer for observing if the mutableLiveData changed
@@ -127,5 +118,38 @@ class SettingActivity : AppCompatActivity() {
         this.observe(this@SettingActivity, Observer {
             settingViewModel.fieldsChanged()
         })
+    }
+
+    /**
+     * Used to set the observer for observing the current click count of the button
+     */
+    private fun LiveData<Int>.setCountObserver() {
+        this.observe(this@SettingActivity, Observer {
+            if (it > 3) {
+                interstitialAd.adListener = object : AdListener() {
+                    override fun onAdClosed() {
+                        super.onAdClosed()
+                        interstitialAd.loadAd(AdRequest.Builder().build())
+                        settingViewModel.enableBreaks()
+                        settingViewModel.resetClickCount()
+                    }
+                }
+
+                if (interstitialAd.isLoaded) interstitialAd.show()
+                else {
+                    settingViewModel.enableBreaks()
+                    settingViewModel.resetClickCount()
+                }
+            }
+        })
+    }
+
+    /**
+     * Used to load the interstitial ad
+     */
+    private fun loadInterstitialAd() {
+        interstitialAd = InterstitialAd(this)
+        interstitialAd.adUnitId = resources.getString(R.string.AD_INTERSTITIAL_ID)
+        interstitialAd.loadAd(AdRequest.Builder().build())
     }
 }

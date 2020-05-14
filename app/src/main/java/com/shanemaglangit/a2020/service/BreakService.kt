@@ -73,7 +73,7 @@ class BreakService : Service() {
             .setContentText("Click here to modify your preferences")
             .setContentIntent(settingPendingIntent)
             .setSound(notificationSound)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
         val intentFilter = IntentFilter()

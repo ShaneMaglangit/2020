@@ -1,9 +1,12 @@
 package com.shanemaglangit.a2020
 
+import android.content.res.Resources
+import android.util.Log
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 
@@ -54,7 +57,7 @@ fun setRatingText(view: TextView, value: String) {
  */
 @BindingAdapter("android:text")
 fun setText(view: Button, value: Boolean) {
-    when(value) {
+    when (value) {
         true -> {
             view.text = view.resources.getString(R.string.button_stop)
             view.setTextColor(ContextCompat.getColor(view.context, R.color.primaryColor))
@@ -75,7 +78,7 @@ fun setText(view: Button, value: Boolean) {
  */
 @BindingAdapter("android:progress")
 fun setProgress(view: SeekBar, value: Int) {
-    if(view.progress != value / 5) {
+    if (view.progress != value / 5) {
         view.progress = value / 5
     }
 }
@@ -87,4 +90,26 @@ fun setProgress(view: SeekBar, value: Int) {
 @InverseBindingAdapter(attribute = "android:progress")
 fun getProgress(view: SeekBar): Int? {
     return view.progress * 5
+}
+
+/**
+ * Used to set a randomized message for the rest activity
+ * @param view the view where the message will be applied
+ * @param value the data set from where the message will be selected
+ */
+@BindingAdapter("message")
+fun setMessage(view: TextView, value: Array<String>) {
+    val defaultText = view.resources.getString(R.string.text_message)
+    view.text = if (value.isEmpty()) defaultText else value[value.indices.random()]
+}
+
+@BindingAdapter("clickCount")
+fun setClickCount(view: Button, count: Int) {
+    val onDemandVideoIcon = ContextCompat.getDrawable(view.context, R.drawable.ic_ondemand_video_24px)
+    view.setCompoundDrawablesWithIntrinsicBounds(if (count == 3) onDemandVideoIcon else null, null, null, null)
+}
+
+@BindingAdapter("clickCount")
+fun setClickCount(view: TextView, count: Int) {
+    view.text = view.resources.getString(R.string.text_counter, 3 - count)
 }

@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="android:statusBarColor">@color/primaryColor</item>\
 
         <item name="colorPrimary">@color/primaryColor</item>
@@ -20,5 +18,16 @@
 <!--        <item name="colorOnBackground">@color/color_on_background</item>-->
 <!--        <item name="colorOnSurface">@color/color_on_surface</item>-->
 <!--        <item name="colorOnError">@color/color_on_error</item>-->
+    </style>
+
+    <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="buttonBarNeutralButtonStyle">@style/AppTheme.Dialog.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.Dialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.Dialog.Button</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/accentColor</item>
+        <item name="colorPrimary">@color/accentColor</item>
     </style>
 </resources>

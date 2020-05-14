@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="rest_messages">
+        <item>Relax your mind, think about the things that makes you happy</item>
+        <item>Look around you, there\'s a bigger world outside of your screen</item>
+        <item>Stretch your arms and legs, exercises keeps us healthy</item>
+        <item>Close your eyes and take a few deep breaths</item>
+        <item>Stretch your arms and legs, exercises keeps us healthy</item>
+        <item>Stand up for a while or grab a drink of water</item>
+        <item>Look at least 20 feet away to prevent eye strain</item>
+        <item>Slowly rolling your eyes is a simple yet effective eye exercise</item>
+        <item>Smile, you look good on it</item>
+    </string-array>
+</resources>

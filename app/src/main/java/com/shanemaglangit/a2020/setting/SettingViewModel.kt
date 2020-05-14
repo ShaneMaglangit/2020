@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,15 +20,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         application.getSharedPreferences("user_pref", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
 
-    // Observer Variables for Snackbars
-    private val _showEnabledSnackbar = MutableLiveData<Boolean>()
-    val showEnabledSnackbar: LiveData<Boolean>
-        get() = _showEnabledSnackbar
-
-    private val _showDisabledSnackbar = MutableLiveData<Boolean>()
-    val showDisabledSnackbar: LiveData<Boolean>
-        get() = _showDisabledSnackbar
-
+    // Observer Variables for Dialogs
     private val _invalidFields = MutableLiveData<Boolean>()
     val invalidFields: LiveData<Boolean>
         get() = _invalidFields
@@ -51,6 +44,10 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         get() = _userRating
 
     // Preferences Values
+    private val _clickCount = MutableLiveData<Int>(sharedPreferences.getInt("click_count", 0))
+    val clickCount: LiveData<Int>
+        get() = _clickCount
+
     val duration = MutableLiveData<Int>(sharedPreferences.getInt("break_duration", 20))
     val work = MutableLiveData<Int>(sharedPreferences.getInt("work_duration", 20))
     val isEnabled = MutableLiveData<Boolean>(sharedPreferences.getBoolean("break_enabled", false))
@@ -68,7 +65,10 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     fun toggleBreaks() {
         if (isEnabled.value == false) {
             if ((work.value == 0) or (duration.value == 0)) _invalidFields.value = true
-            else enableBreaks()
+            else {
+                incrementClickCount()
+                if(clickCount.value!! <= 3) enableBreaks()
+            }
         } else if (isEnabled.value == true) {
             disableBreaks()
         }
@@ -77,7 +77,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     /**
      * Used to enable breaks and start the break service
      */
-    private fun enableBreaks() {
+    fun enableBreaks() {
         // Update the sharedPreferences
         editor.putInt("break_duration", duration.value!!)
         editor.putInt("work_duration", work.value!!)
@@ -85,7 +85,6 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
 
         // Update the liveData
         isEnabled.value = true
-        _showEnabledSnackbar.value = true
 
         // Start the service
         if (Build.VERSION.SDK_INT >= 26) {
@@ -111,7 +110,6 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     private fun disableBreaks() {
         // Update the liveData
         isEnabled.value = false
-        _showDisabledSnackbar.value = true
 
         // Start the service
         getApplication<Application>().stopService(
@@ -135,23 +133,28 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     }
 
     /**
-     * Used to notify that the enabled snackbar is successfully shown
+     * Used to notify that the invalid fields dialog is successfully shown
      */
-    fun enabledSnackbarComplete() {
-        _showEnabledSnackbar.value = false
-    }
-
-    /**
-     * Used to notify that the disabled snackbar is successfully shown
-     */
-    fun disabledSnackbarComplete() {
-        _showDisabledSnackbar.value = false
-    }
-
-    /**
-     * Used to notify that the invalid fields snackbar is successfully shown
-     */
-    fun invalidFieldsSnackbarComplete() {
+    fun invalidFieldsDialogComplete() {
         _invalidFields.value = false
+    }
+
+    /**
+     * Used to reset the click count observed for showing the ads
+     */
+    fun resetClickCount() {
+        _clickCount.value = 0
+        editor.putInt("click_count", clickCount.value!!)
+        editor.apply()
+    }
+
+    /**
+     * Used to increase click count
+     */
+    private fun incrementClickCount() {
+        // Update the click count
+        _clickCount.value = _clickCount.value?.plus(1) ?: 0
+        editor.putInt("click_count", clickCount.value!!)
+        editor.apply()
     }
 }
