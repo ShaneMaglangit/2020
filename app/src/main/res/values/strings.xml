@@ -6,7 +6,7 @@
     <string name="text_work_sub">interval between breaks</string>
     <string name="button_start">Start breaks</string>
     <string name="button_stop">Stop breaks</string>
-    <string name="text_counter">An add will be shown after %d toggles</string>
+    <string name="text_counter">An ad will be shown after %d toggles</string>
 
     <string name="text_performance">YOUR PERFORMANCE</string>
     <string name="text_preferences">MODIFY YOUR BREAKS</string>
