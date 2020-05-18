@@ -1,11 +1,20 @@
 package com.shanemaglangit.a2020.setting
 
+import android.Manifest
 import android.animation.ValueAnimator
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -66,6 +75,9 @@ class SettingActivity : AppCompatActivity() {
         settingViewModel.invalidFields.setInvalidFieldObserver()
         settingViewModel.clickCount.setCountObserver()
 
+        // Request for the necessary permissions
+        requestPermissions()
+
         // Load the interstitial ad
         loadInterstitialAd()
     }
@@ -99,7 +111,12 @@ class SettingActivity : AppCompatActivity() {
     private fun LiveData<Boolean>.setInvalidFieldObserver() {
         this.observe(this@SettingActivity, Observer {
             if (it) {
-                AlertDialog.Builder(ContextThemeWrapper(this@SettingActivity, R.style.AppTheme_Dialog))
+                AlertDialog.Builder(
+                    ContextThemeWrapper(
+                        this@SettingActivity,
+                        R.style.AppTheme_Dialog
+                    )
+                )
                     .setTitle("Invalid fields")
                     .setMessage("Fields cannot be set to 0")
                     .setCancelable(true)
@@ -151,5 +168,52 @@ class SettingActivity : AppCompatActivity() {
         interstitialAd = InterstitialAd(this)
         interstitialAd.adUnitId = resources.getString(R.string.AD_INTERSTITIAL_ID)
         interstitialAd.loadAd(AdRequest.Builder().build())
+    }
+
+    /**
+     * Used to request for the permissions needed for the app to run properly
+     */
+    private fun requestPermissions() {
+        val missingPermissions = getMissingPermissions()
+
+        if(missingPermissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, missingPermissions, 1)
+        }
+    }
+
+    /**
+     * Used to get the list of permissions that needs to be requested
+     */
+    private fun getMissingPermissions() : Array<String> {
+        val missingPermissions = arrayListOf<String>()
+
+        if (Build.VERSION.SDK_INT >= 28 && !checkPermission(Manifest.permission.FOREGROUND_SERVICE))
+            missingPermissions.add(Manifest.permission.FOREGROUND_SERVICE)
+        if (!checkPermission(Manifest.permission.VIBRATE))
+            missingPermissions.add(Manifest.permission.VIBRATE)
+        if (!checkPermission(Manifest.permission.RECEIVE_BOOT_COMPLETED))
+            missingPermissions.add(Manifest.permission.RECEIVE_BOOT_COMPLETED)
+
+        return missingPermissions.toTypedArray()
+    }
+
+    /**
+     * Used to check if the permission is already granted
+     */
+    private fun Context.checkPermission(permission: String): Boolean =
+        ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+    /**
+     * Close the app if the permissions are not granted
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == 1) {
+            finishAndRemoveTask()
+        }
     }
 }

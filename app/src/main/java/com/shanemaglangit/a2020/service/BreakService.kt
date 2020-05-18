@@ -80,6 +80,7 @@ class BreakService : Service() {
         intentFilter.addAction(Intent.ACTION_USER_PRESENT)
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
         intentFilter.addAction(Intent.ACTION_SHUTDOWN)
+        intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED)
 
         startTimer(workDuration)
         createNotificationChannel()

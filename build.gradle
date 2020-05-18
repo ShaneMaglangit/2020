@@ -28,12 +28,12 @@ subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
             android {
-                compileSdkVersion 29
+                compileSdkVersion 28
                 buildToolsVersion "29.0.3"
 
                 defaultConfig {
                     minSdkVersion 21
-                    targetSdkVersion 29
+                    targetSdkVersion 28
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                     vectorDrawables.useSupportLibrary = true
                 }
