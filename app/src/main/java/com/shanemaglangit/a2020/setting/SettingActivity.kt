@@ -24,6 +24,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.snackbar.Snackbar
 import com.shanemaglangit.a2020.R
 import com.shanemaglangit.a2020.databinding.ActivityMainBinding
 import com.shanemaglangit.a2020.setRatingText
@@ -80,6 +81,9 @@ class SettingActivity : AppCompatActivity() {
 
         // Load the interstitial ad
         loadInterstitialAd()
+
+        // Check SDK version
+        checkSDKVersion()
     }
 
     /**
@@ -111,12 +115,8 @@ class SettingActivity : AppCompatActivity() {
     private fun LiveData<Boolean>.setInvalidFieldObserver() {
         this.observe(this@SettingActivity, Observer {
             if (it) {
-                AlertDialog.Builder(
-                    ContextThemeWrapper(
-                        this@SettingActivity,
-                        R.style.AppTheme_Dialog
-                    )
-                )
+                AlertDialog
+                    .Builder(ContextThemeWrapper(this@SettingActivity, R.style.AppTheme_Dialog))
                     .setTitle("Invalid fields")
                     .setMessage("Fields cannot be set to 0")
                     .setCancelable(true)
@@ -202,6 +202,21 @@ class SettingActivity : AppCompatActivity() {
      */
     private fun Context.checkPermission(permission: String): Boolean =
         ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+    /**
+     * Used to check if the app is compatible with the phone's SDK version.
+     * Due to restrictions to starting activities on SDK29+, the app wouldn't function properly
+     * on said SDK version.
+     */
+    private fun checkSDKVersion() {
+        if(Build.VERSION.SDK_INT >= 29) {
+            Snackbar.make(
+                binding.root,
+                "App is not compatible with your Android version.",
+                Snackbar.LENGTH_INDEFINITE
+            ).show()
+        }
+    }
 
     /**
      * Close the app if the permissions are not granted
