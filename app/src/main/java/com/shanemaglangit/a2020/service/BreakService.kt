@@ -82,8 +82,7 @@ class BreakService : Service() {
         intentFilter.addAction(Intent.ACTION_SHUTDOWN)
         intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED)
 
-//        startTimer(workDuration)
-        startTimer(5000)
+        startTimer(workDuration)
         createNotificationChannel()
         registerReceiver(alarmReceiver, intentFilter)
         startForeground(1, notification)
@@ -126,7 +125,7 @@ class BreakService : Service() {
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
                 startActivity(restIntent)
-//                startTimer(workDuration + breakDuration)
+                startTimer(workDuration + breakDuration)
             }
         }
 
